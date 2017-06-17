@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>${systemName!}-${menu.getStr("menuname")!}</title>
+<#include "/common/_head.html"/>
+<script type="text/javascript" src="${(appName)!}/js/myJs.js"></script>
+<script type="text/javascript" src="${(appName)!}/js/myJsEasy.js"></script>
+<script type="text/javascript" src="${(appName)!}/jslib/ajaxfileupload/ajaxfileupload.js"></script>
+<#include "/js/_myJs.html"/>
+<script type="text/javascript">  
+	var grid = null; 
+	var action = "";
+    //初始化
+    $(function(){ 
+    	//创建  grid
+		var panelColumns  = [[    
+			{field:'KTGG',title:'****',width:100,flag:1},        
+			{field:'TZGG',title:'****',width:100,flag:1},
+			{field:'SDGG',title:'****',width:100,flag:1},
+			{field:'SSZN',title:'****',width:100,flag:1},
+			{field:'MSAJ',title:'****',width:100,flag:1},
+			{field:'PCAJ',title:'****',width:100,flag:1},
+			{field:'ZSCQ',title:'****',width:100,flag:1},
+			{field:'XSAJ',title:'****',width:100,flag:1},
+			{field:'XZAJ',title:'****',width:100,flag:1},
+			{field:'ZXAJ',title:'****',width:100,flag:1},
+			{field:'AJZS',title:'****',width:100,flag:1},
+			{field:'CPWS',title:'****',width:100,flag:1}
+	    ]];
+		var panelConfig = {
+			toolbar: [{
+				iconCls: 'icon-search',
+				text   : '查询',
+				handler: function(){funSearch();}
+			},'-',{
+				iconCls: 'icon-cancel',
+				text   : '重置',
+				handler: function(){
+					$('#from1').form('clear');
+					$('#txt_zt').combobox("setValue","1");
+					$('#txt_scbs').combobox("setValue","2");
+				}
+			},'-',{
+				iconCls: '',
+				text   : '导出excel',
+				handler: function(){
+					var opts = $('#grid').datagrid('getColumnFields'); //这是获取到所有的FIELD
+					var colName=[];
+					var colTitle=[];
+					var tableHtml = '<table border="1">';
+					var tdHtml = '';
+					tableHtml += '<tr>';
+					for(i=0;i<opts.length;i++){
+						
+						var col = $('#grid').datagrid( "getColumnOption" , opts[i] );
+						//获得想要的title
+						if(col.flag == "1"){
+							colTitle.push(col.title);//把TITLE PUSH到数组里去
+							tableHtml += '<td>'+col.title+'</td>';
+							colName.push(col.field);//把field push到数组
+						}
+						
+					}
+					tableHtml += '</tr>';
+					
+					//title有了,现在要获取title相应的数据
+					var datasObject = new Array();
+					datasObject = $('#grid').datagrid('getRows');
+					for(var x in datasObject){
+						tableHtml += '<tr>';
+						for(j=0;j<colName.length;j++){
+							tdHtml = '';
+							tdHtml += datasObject[x][colName[j]]
+							tableHtml += '<td style="vnd.ms-excel.numberformat:@">'+tdHtml+'</td>';
+						}
+						tableHtml += '</tr>';						
+					}
+					tableHtml += '</table>';
+					//alert(tableHtml);
+					//title有了,数据有了,组合成table,传到后台
+					$.ajax({
+						url:base + "/admin/hdxx/getTableHtml",
+						data:{'data':tableHtml},
+						success:function(data){
+							var url = base + "/" + data.url;
+							window.open(url);
+						}
+					});
+				}
+			}
+			],
+			onSelect:function(rowIndex, rowData){
+    			
+    		}
+		};
+		grid = myJs.createGrid("grid",panelConfig,panelColumns);
+		grid.datagrid('doCellTip',{onlyShowInterrupt:true});  
+		funSearch(true);
+	});
+
+    //显示窗口
+	function funSetUser(ID,opt){
+		action = opt;
+		if(action=="examine"){
+			debugger;
+			new myJsTool().confirm("确认查看",null,
+					function(r){
+						if(r){
+							funSaveUser(ID);
+						}
+					});		
+		}
+	}
+
+	//保存
+	function funSaveUser(ID){
+		debugger;
+		var mj = new myJsTool();
+		if(action=="examine"){
+			AjaxLoading();
+			mj.Ajax(appName+"/admin/user/infojbxx",{action:action,id:ID},
+				function(data){
+					if (data.success){
+						mj.showTip(data.msg);
+						grid.reload();
+					} else {  
+			        	mj.error(data.msg);  
+			        }
+					AjaxLoadEnd();
+				}
+			);
+		}
+	}
+
+    
+    
+	//查询
+	function funSearch(init){
+		if($("#from1").form('validate')){
+			var firstDate = $('#begdate').datebox("getValue");
+			var lastDate = $('#enddate').datebox("getValue");
+			//检测两个时间是否同时有，或者没有
+			if(firstDate!=null && firstDate!=""){
+				if(lastDate.length == 0){
+					$.messager.alert('','请选择第二个时间段!','info');
+					return false;
+				}
+			}
+			if(lastDate!=null && lastDate!=""){
+				if(firstDate.length == 0){
+					$.messager.alert('','请选择第一个时间段!','info');
+					return false;
+				}
+			}
+			
+			grid.init(appName + "/admin/sfgk/list",{action:"viewCounts",firstDate:firstDate,lastDate:lastDate});
+		}
+	}
+
+	
+</script>
+</head>
+<body class="easyui-layout" >  
+<div region="center" style="border-left:0px;border-bottom:0px;border:0px;border-top:0px;">
+	<div id="info" class="easyui-panel" title="统计信息" 
+ 				style="text-align:center;padding:10px 10px 10px 80px;background:#e5efff;">  
+ 		<div style="background:#e5efff;border-bottom:0px;border-top: 0px;">
+	   		<form id='from1'>
+	   		<table>
+	   			<tr>
+	   				<td align="right">查询日期：</td>
+	   				<td align="left"><input id="begdate" type="text" class="easyui-datebox" validType="date"></input></td>
+	   				<td align="right">-</td>
+	   				<td align="left"><input id="enddate" type="text" class="easyui-datebox" validType="date"></input></td>
+	   				</tr>
+	   			
+	   		</table>   
+	  		</form>
+  		</div>
+  	</div> 
+  		<div id="grid" style="overflow-y:auto; height: 500px"></div>
+</div>
+
+</body>
+</html>
