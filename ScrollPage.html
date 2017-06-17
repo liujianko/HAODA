@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>页面滚动</title>
+  <script src="js/jquery.kxbdmarquee.js"></script> <!-- 这个js必不可少 -->
+ </head>
+ <body>
+  <div id="container">
+		<div class="scroll-main">
+			<ul>
+			<#if ktxxList??>
+			<#list ktxxList as kt>
+			<#if kt.ktzt!=''>
+				<li>
+					<table class="table table-bordered">
+						<tbody>
+							<tr><td colspan="4" class="success">${(kt.ah)!}</td></tr>
+							<tr>
+								<td>****</td>
+								<td>${(kt.ktsj)!}</td>
+								<td>****</td>
+								<td>${(kt.jssj)!}</td>
+							</tr>
+							<tr>
+							  <td>****</td>
+							  <td>${(kt.ftmc)!}</td>
+							  <td>主审法官</td>
+							  <td>${(kt.cbfg)!}</td>
+							</tr>
+							<tr >
+							  <td>****</td>
+							  <td>${(kt.ktyt)!}</td>
+							  <td>****</td>
+							  <td>${(kt.ktzt)!}</td>
+							</tr>
+						</tbody>
+					</table>
+				</li>
+				</#if>
+				</#list>
+				</#if>
+			</ul>
+		</div>
+	</div>
+			
+		
+
+	<script type="text/javascript">
+		$(".scroll-main").kxbdMarquee({direction:"up"});
+	</script>
+
+	<script type="text/javascript">
+		var tHours = 9;
+		var tMinutes = 0;
+		var nowDate;
+		var nowHours;
+		var nowMinutes;
+		
+		function chackTime(){
+			debugger;
+			nowDate = new Date();
+			nowHours = nowDate.getHours();
+			nowMinutes = nowDate.getMinutes();
+			if(nowHours-tHours==0 && nowMinutes-tMinutes>=0){
+				window.location.reload(true);
+			}
+		}
+		
+		setInterval("chackTime();",30000);
+		//setInterval("chackTime();",60*60*1000);
+	</script>
+ </body>
+</html>
