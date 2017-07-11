@@ -146,7 +146,7 @@ function TWCheck(code){
 
 //澳门身份证校验
 function MOCheck(code){
-	
+   //网上没有找到澳门的校验规则，待补充
 }
 
 //香港身份证校验
