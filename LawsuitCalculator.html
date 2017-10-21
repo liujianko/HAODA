@@ -1,0 +1,491 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width">
+<title>诉讼计费</title>
+</head>
+<style type="text/css">
+
+	*{
+		padding: 0 ;
+		margin: 0;
+		box-sizing: border-box;
+	}
+	li {
+		list-style: none;
+	}
+	
+	a{
+		color: #2f2f2f;
+	}
+    body,html{
+    	font-family: "微软雅黑";
+    	color:#000;
+    	width: 1080px;
+    	height: 1920px;
+    	margin: 0 auto;
+    	background: #e6e6e6;
+    }
+    h1{
+		font-weight: bold;
+		font-size:50px;
+		line-height: 110px;
+	}
+	h2{
+		font-size:36px;
+		line-height:50px;
+	}
+	h3{
+		font-size:24px;
+		line-height: 40px;
+		color: #515868;
+	}
+	input{
+		outline: none;
+		border: none;
+		height: 100%;
+	}
+	.fl{
+		float: left;
+	}
+	.fr{
+		float: right;
+	}
+	 .bg1{
+	 	background: #f7f7f7;
+	 }
+	 .bg2{
+	 	background: #e6e6e6;
+	 }
+	.head{
+		position: relative;
+	    height:110px;
+	    border-bottom: 1px solid #c9cdd8;
+	    text-align: center;
+	    background: #FFF;
+	}
+	.home-btn{
+		position: fixed;
+		width: 100px;
+		height: 100px;
+		right: 90px;
+		top: 290px;
+	}
+	.home-btn img{
+		width: 100%;
+	}
+	.content{
+		padding: 20px 50px;
+		overflow: hidden;
+	}
+	.fate-box{
+		
+		width:100% ;
+		height: 200px;
+	    margin: 50px 0;
+		border: 1px solid #bbbbbb;
+		border-radius:10px ;
+		overflow: hidden;
+	}
+	#num{
+		width: 100%;
+		height: 198px;
+		font-size: 50px;
+		line-height: 200px;
+		padding: 20px;
+		font-weight: bold;
+		float: right;
+	}
+	#num input{
+		font:70px/190px '微软雅黑' ;
+	    width: 100%;
+		height: 100%;
+		background: #f7f7f7;
+		text-align: right;
+		overflow: hidden;
+	
+	}
+	.count-box{
+		width: 100%;
+		height: 60px;
+	}
+	.count-box input{
+		width: 100%;
+		background: none;
+		color: #fff;
+		font: 40px/60px '微软雅黑';
+	}
+	.count-box .left-bar,.count-box .right-bar{
+		width: 48%;
+		height: 160px;
+		background: #8e8e8e;
+		border-radius: 10px;
+		color: #fff;
+		text-align: center;
+	}
+	.count-box .on{
+		background: #29a6d4;
+	}
+	.content-bottom {
+		padding: 30px;
+		font-size:30px ;		
+	}
+	.content-bottom .item{
+		height:100px ;
+		margin: 30px 0;
+		text-align: center;
+	}
+	.item-name{
+		width: 30%;
+		line-height: 100px;
+	}
+	.item-input{
+		width: 62%;
+		height: 100px;
+		background: #fff;
+		border: 1px solid #bbbbbb;
+		overflow: hidden;
+	}
+	.item-input input{
+		height:96px;
+		width: 96%;
+		font:50px "微软雅黑" ;
+	}
+	.item-label{
+		width: 8%;
+		line-height: 100px;
+	}
+</style>
+
+
+<body>
+	<div class="head ">
+		<h1>诉讼费计算器</h1>
+		<div class="home-btn" onclick = "javascript:window.history.back();">
+			<img src="${base!}/quicksearch/vertical/J64/images/back-btn.png" alt="返回按钮"/>
+		</div>
+	</div>
+	<form action=""  name="formsuan">
+		<div class="content bg1" >
+			<div class="title">
+				<h2 style="margin-top: 140px;">输入金额(元):</h2>
+				<h3>输入标的额(诉讼/保全/执行标的)或诉讼费(案件受理费/保全费/执行费)</h3>
+				<h3>声明:诉讼费结算结果仅供参考，具体以法院收费为准</h3>
+			</div>
+			<div class="fate-box" style="margin-top: 150px;"> 
+				<span id="num">
+<!-- 						<input type="text" placeholder="请输入标的金额" autocomplete="off"  name="textfieldshuru"  onkeydown="countsbz();" id="textfieldshuru" onfocus="this.value=''"  onkeyup="debugger;(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();"/>  -->
+						<input type="text" placeholder="请输入标的金额" autocomplete="off"  name="textfieldshuru"  onkeyup="countsbz();" id="textfieldshuru" /> -->
+				</span>
+			</div>
+			
+			<div class="fate-box"> 
+				<span id="num">
+					<input type="text" placeholder="请输入标的金额"  id="textfieldBigNum" /> -->
+				</span>
+			</div>
+			
+			<div class="count-box">
+				<div class="left-bar fl on">
+					<input  type="button" name="submit1" id="submit1" value="计算" onclick="countsbz();"/>
+					
+				</div>
+				<div class="right-bar fr">
+					<input  type="reset" name="reset2" id="reset2" value="重新计算" />
+				</div>
+			</div>
+		</div>
+		<div class="content-bottom bg2">
+			<div class="item">
+				<div class="item-name fl">
+					计算受理费用:
+				</div>
+				<div class="item-input fl">
+					<input type="" readonly="readonly" name="textfieldshouli" id="textfieldshouli" value="" disabled="disabled"/>
+				</div>
+				<div class="item-label fl">
+					元
+				</div>
+			</div>
+			<div class="item">
+				<div class="item-name fl">
+					计算受理费用减半:
+				</div>
+				<div class="item-input fl">
+					<input type="" readonly="readonly" name="textfieldshouli_l" id="textfieldshouli_l" value="" />
+				</div>
+				<div class="item-label fl">
+					元
+				</div>
+			</div>
+				
+			<div class="item">
+				<div class="item-name fl">
+					计算保全费用:
+				</div>
+				<div class="item-input fl">
+					<input type="" readonly="readonly" name="textfieldbaoquan" id="textfieldbaoquan" value="" disabled="disabled"/>
+				</div>
+				<div class="item-label fl">
+					元
+				</div>
+			</div>
+			<div class="item">
+				<div class="item-name fl">
+					计算执行费用:
+				</div>
+				<div class="item-input fl">
+					<input type="" readonly="readonly" name="textfieldzhixing" id="textfieldzhixing" value="" disabled="disabled"/>
+				</div>
+				<div class="item-label fl">
+					元
+				</div>
+			</div>
+		</div>
+	</form>
+	
+</body>
+<script type="text/javascript">
+ function shou() {
+    var result = 0;
+    var shuru = document.formsuan.textfieldshuru.value;
+    if ((shuru > 0) && (shuru <= 10000)) {
+        result = 50;
+    }
+    else if ((shuru > 10000) && (shuru <= 100000)) {
+        result = shuru * 0.025 - 200;
+    }
+    else if ((shuru > 100000) && (shuru <= 200000)) {
+        result = shuru * 0.02 + 300
+    }
+    else if ((shuru > 200000) && (shuru <= 500000)) {
+        result = shuru * 0.015 + 1300
+    }
+    else if ((shuru > 500000) && (shuru <= 1000000)) {
+        result = shuru * 0.01 + 3800
+    }
+    else if ((shuru > 1000000) && (shuru <= 2000000)) {
+        result = shuru * 0.009 + 4800
+    }
+    else if ((shuru > 2000000) && (shuru <= 5000000)) {
+        result = shuru * 0.008 + 6800
+    }
+    else if ((shuru > 5000000) && (shuru <= 10000000)) {
+        result = shuru * 0.007 + 11800
+    }
+    else if ((shuru > 10000000) && (shuru <= 20000000)) {
+        result = shuru * 0.006 + 21800
+    }
+    else if (shuru > 20000000) {
+        result = shuru * 0.005 + 41800
+    }
+    document.formsuan.textfieldsuan.value = result
+}
+function bao() {
+    var result = 0;
+    var shuru = document.formsuan.textfieldshuru.value;
+    if ((shuru > 0) && (shuru <= 1000)) {
+        result = 30
+    }
+    else if ((shuru > 1000) && (shuru <= 100000)) {
+        result = shuru * 0.01 + 20
+    }
+    else if (shuru > 100000) {
+        result = shuru * 0.005 + 520
+    }
+    if ((result >= 5000)) {
+        result = 5000
+    }
+    document.formsuan.textfieldsuan.value = result
+}
+function zhi() {
+    var result = 0;
+    var shuru = document.formsuan.textfieldshuru.value;
+    if ((shuru > 0) && (shuru < 10000)) {
+        result = 50
+    }
+    else if ((shuru >= 10000) && (shuru <= 500000)) {
+        result = shuru * 0.015 - 100
+    }
+    else if ((shuru >= 500000) && (shuru <= 5000000)) {
+        result = shuru * 0.01 + 2400
+    }
+    else if (shuru > 10000000) {
+        result = shuru * 0.001 + 67400
+    }
+    document.formsuan.textfieldsuan.value = result
+}
+function shouc() {
+    var result = 0;
+    var shuru = document.formsuan.textfieldshuru.value;
+    if (shuru > 15010) {
+        result = (shuru - 10010) / 0.005;
+    }
+    else if ((shuru > 10010) && (shuru <= 15010)) {
+        result = (shuru - 5010) / 0.01;
+    }
+    else if ((shuru > 5510) && (shuru <= 10010)) {
+        result = (shuru - 2510) / 0.015
+    }
+    else if ((shuru > 3010) && (shuru <= 5510)) {
+        result = (shuru - 1510) / 0.02
+    }
+    else if ((shuru > 2010) && (shuru <= 3510)) {
+        result = (shuru - 1510) / 0.03
+    }
+    else if ((shuru > 50) && (shuru <= 2010)) {
+        result = (shuru - 10) / 0.04
+    }
+    else if (shuru = 50) {
+        result = "诉讼标的<=1000元"
+    }
+    document.formsuan.textfieldfan.value = result
+}
+function baoc() {
+    var result = 0;
+    var shuru = document.formsuan.textfieldshuru.value;
+    if (shuru > 1020) {
+        result = (shuru - 520) / 0.005
+    }
+    else if ((shuru > 30) && (shuru <= 1020)) {
+        result = (shuru - 20) / 0.01
+    }
+    else if (shuru = 30) {
+        result = "保全标的<=1000元"
+    }
+    document.formsuan.textfieldfan.value = result
+}
+function zhic() {
+    var result = 0;
+    var shuru = document.formsuan.textfieldshuru.value;
+    if (shuru > 2500) {
+        result = (shuru - 2000) / 0.001
+    }
+    else if ((shuru > 50) && (shuru <= 2500)) {
+        result = shuru / 0.005
+    }
+    else if (shuru = 50) {
+        result = "执行标的<=10000元"
+    }
+    document.formsuan.textfieldfan.value = result
+}
+
+function countsbz(){
+	var result1 = 0;
+	var result2 = 0;
+	var result3 = 0;
+	var shuru = document.formsuan.textfieldshuru?document.formsuan.textfieldshuru.value:0;
+	
+	//数字转大写
+	var bigNum = digitUppercase(shuru);
+	document.getElementById("textfieldBigNum").value=bigNum;
+	
+	result1 = shou1(result1);
+	result2 = bao1(result2);
+	result3 = zhi1(result3);
+	document.formsuan.textfieldshouli.value = result1
+	document.formsuan.textfieldshouli_l.value = result1/2
+	document.formsuan.textfieldbaoquan.value = result2
+	document.formsuan.textfieldzhixing.value = result3
+}
+
+function shou1(result) {
+    var shuru = document.formsuan.textfieldshuru.value;
+    if ((shuru > 0) && (shuru <= 10000)) {
+        result = 50;
+    }
+    else if ((shuru > 10000) && (shuru <= 100000)) {
+        result = shuru * 0.025 - 200;
+    }
+    else if ((shuru > 100000) && (shuru <= 200000)) {
+        result = shuru * 0.02 + 300
+    }
+    else if ((shuru > 200000) && (shuru <= 500000)) {
+        result = shuru * 0.015 + 1300
+    }
+    else if ((shuru > 500000) && (shuru <= 1000000)) {
+        result = shuru * 0.01 + 3800
+    }
+    else if ((shuru > 1000000) && (shuru <= 2000000)) {
+        result = shuru * 0.009 + 4800
+    }
+    else if ((shuru > 2000000) && (shuru <= 5000000)) {
+        result = shuru * 0.008 + 6800
+    }
+    else if ((shuru > 5000000) && (shuru <= 10000000)) {
+        result = shuru * 0.007 + 11800
+    }
+    else if ((shuru > 10000000) && (shuru <= 20000000)) {
+        result = shuru * 0.006 + 21800
+    }
+    else if (shuru > 20000000) {
+        result = shuru * 0.005 + 41800
+    }
+    return result;
+}
+function bao1(result) {
+    var shuru = document.formsuan.textfieldshuru.value;
+    if ((shuru > 0) && (shuru <= 1000)) {
+        result = 30
+    }
+    else if ((shuru > 1000) && (shuru <= 100000)) {
+        result = shuru * 0.01 + 20
+    }
+    else if (shuru > 100000) {
+        result = shuru * 0.005 + 520
+    }
+    if ((result >= 5000)) {
+        result = 5000
+    }
+    return result;
+}
+function zhi1(result) {
+    var shuru = document.formsuan.textfieldshuru.value;
+    if ((shuru > 0) && (shuru < 10000)) {
+        result = 50
+    }
+    else if ((shuru >= 10000) && (shuru <= 500000)) {
+        result = shuru * 0.015 - 100
+    }
+    else if ((shuru >= 500000) && (shuru <= 5000000)) {
+        result = shuru * 0.01 + 2400
+    }
+    else if (shuru > 10000000) {
+        result = shuru * 0.001 + 67400
+    }
+    return result;
+}
+
+var digitUppercase = function(n) {
+    var fraction = ['角', '分'];
+    var digit = [
+        '零', '壹', '贰', '叁', '肆',
+        '伍', '陆', '柒', '捌', '玖'
+    ];
+    var unit = [
+        ['元', '万', '亿'],
+        ['', '拾', '佰', '仟']
+    ];
+    var head = n < 0 ? '欠' : '';
+    n = Math.abs(n);
+    var s = '';
+    for (var i = 0; i < fraction.length; i++) {
+        s += (digit[Math.floor(n * 10 * Math.pow(10, i)) % 10] + fraction[i]).replace(/零./, '');
+    }
+    s = s || '整';
+    n = Math.floor(n);
+    for (var i = 0; i < unit[0].length && n > 0; i++) {
+        var p = '';
+        for (var j = 0; j < unit[1].length && n > 0; j++) {
+            p = digit[n % 10] + unit[1][j] + p;
+            n = Math.floor(n / 10);
+        }
+        s = p.replace(/(零.)*零$/, '').replace(/^$/, '零') + unit[0][i] + s;
+    }
+    return head + s.replace(/(零.)*零元/, '元')
+        .replace(/(零.)+/g, '零')
+        .replace(/^整$/, '零元整');
+};
+</script>
+</html>
